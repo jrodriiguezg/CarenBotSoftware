@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     libportaudio2 \
     espeak-ng \
     git \
+    libpulse0 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
