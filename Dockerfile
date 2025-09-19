@@ -11,13 +11,16 @@ WORKDIR /app
 # - git: para instalar dependencias que lo requieran
 # - curl: para descargar el instalador de Ollama
 RUN apt-get update && apt-get install -y \
-    python3-tk \
+     python3-tk \
     libportaudio2 \
     espeak-ng \
-    git \
     libpulse0 \
+    git \
     curl \
-    lspi \
+    build-essential \
+    pkg-config \
+    libcairo2-dev \
+    lshw \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar Ollama
