@@ -14,4 +14,4 @@ playsound
 google-generativeai
 piper-tts
 pyaudio
-pygobject
+
