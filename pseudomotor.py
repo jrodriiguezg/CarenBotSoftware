@@ -4,7 +4,7 @@ import os
 import random
 import requests
 import json
-
+import serial
 class RobotController:
     """
     Clase que encapsula toda la lógica de movilidad del proyecto Caren.

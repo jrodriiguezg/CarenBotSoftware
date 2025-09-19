@@ -5,8 +5,14 @@ import queue
 
 # --- Configuración ---
 DEVICE = None             # Dispositivo de audio (None para el predeterminado)
-SAMPLERATE = 44100        # Muestras de audio por segundo
 CHUNK_SIZE = 1024         # Número de muestras a leer a la vez
+# Intentar obtener la frecuencia de muestreo por defecto del dispositivo para evitar errores
+try:
+    device_info = sd.query_devices(DEVICE, 'input')
+    SAMPLERATE = int(device_info['default_samplerate'])
+except (ValueError, TypeError, KeyError):
+    print("Advertencia: No se pudo obtener el samplerate por defecto. Usando 44100 Hz.")
+    SAMPLERATE = 44100
 LINE_COLOR = "#66ff66"     # Color verde neón para el osciloscopio
 BACKGROUND_COLOR = "#000000" # Fondo negro
 AMPLIFICATION_FACTOR = 2.5  # Factor de amplificación (>1 para picos más grandes)
