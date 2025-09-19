@@ -8,8 +8,13 @@ WORKDIR /app
 # - python3-tk: para la interfaz gráfica de video.py
 # - libportaudio2: para sounddevice
 # - espeak-ng: para el motor de voz offline pyttsx3
+# - libpulse0: para una mejor compatibilidad de audio con PulseAudio/PipeWire
 # - git: para instalar dependencias que lo requieran
 # - curl: para descargar el instalador de Ollama
+# - build-essential, pkg-config, libcairo2-dev: para compilar 'pycairo', una dependencia de 'playsound'.
+# - libgirepository1.0-dev: para compilar 'pygobject', otra dependencia de 'playsound'.
+# - portaudio19-dev: para compilar 'pyaudio', una dependencia de 'speechrecognition'.
+# - gir1.2-gtk-3.0: Datos de introspección para PyGObject, usado por playsound.
 RUN apt-get update && apt-get install -y \
     python3-tk \
     libportaudio2 \
@@ -22,6 +27,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libcairo2-dev \
     libgirepository1.0-dev \
+    gir1.2-gtk-3.0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar Ollama
@@ -32,6 +38,11 @@ COPY requirements.txt .
 
 # Instalar las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Crear directorio para los modelos de voz de Piper y descargarlos
+RUN mkdir -p /app/tts_models
+RUN curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx" -o /app/tts_models/es_ES-sharvard-medium.onnx
+RUN curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json" -o /app/tts_models/es_ES-sharvard-medium.onnx.json
 
 # Copiar todos los scripts de la aplicación al contenedor
 COPY *.py ./
