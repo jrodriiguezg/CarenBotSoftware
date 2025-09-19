@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
     libcairo2-dev \
-    lshw \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar Ollama
