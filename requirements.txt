@@ -11,7 +11,7 @@ speechrecognition
 pyttsx3
 gTTS
 playsound
+PyGObject
 google-generativeai
 piper-tts
-pyaudio
 
