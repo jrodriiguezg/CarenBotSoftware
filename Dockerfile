@@ -19,6 +19,7 @@ WORKDIR /app
 # - python3-gi, python3-gi-cairo: Paquetes de sistema para PyGObject, para evitar errores de compilación con pip.
 # - gstreamer1.0-plugins-good, gir1.2-gstreamer-1.0: Para que 'playsound' pueda reproducir audio (MP3, WAV).
 # - alsa-utils: Provee 'aplay', una herramienta de reproducción de audio usada como fallback por 'pyttsx3'.
+# - libasound2-plugins: Contiene el plugin para redirigir ALSA a PulseAudio.
 RUN apt-get update && apt-get install -y \
     python3-tk \
     libportaudio2 \
@@ -37,6 +38,7 @@ RUN apt-get update && apt-get install -y \
     gir1.2-gtk-3.0 \
     gstreamer1.0-plugins-good \
     gir1.2-gstreamer-1.0 \
+    libasound2-plugins \
     alsa-utils \
     && rm -rf /var/lib/apt/lists/*
 
@@ -56,6 +58,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir -p /app/tts_models && \
     curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx" -o /app/tts_models/es_ES-sharvard-medium.onnx && \
     curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json" -o /app/tts_models/es_ES-sharvard-medium.onnx.json
+
+# Copiar el archivo de configuración de ALSA para redirigir a PulseAudio
+COPY asound.conf /etc/asound.conf
 
 # Copiar todos los scripts de la aplicación al contenedor
 COPY *.py ./
