@@ -9,6 +9,7 @@ scikit-learn
 Pillow
 speechrecognition
 pyttsx3
+PyAudio
 gTTS
 playsound
 google-generativeai
