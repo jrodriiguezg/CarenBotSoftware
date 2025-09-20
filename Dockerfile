@@ -17,6 +17,8 @@ WORKDIR /app
 # - gir1.2-gtk-3.0: Datos de introspección para PyGObject, usado por playsound en algunos sistemas.
 # - xauth: para ayudar con la autorización de X11 para la interfaz gráfica.
 # - python3-gi, python3-gi-cairo: Paquetes de sistema para PyGObject, para evitar errores de compilación con pip.
+# - gstreamer1.0-plugins-good, gir1.2-gstreamer-1.0: Para que 'playsound' pueda reproducir audio (MP3, WAV).
+# - alsa-utils: Provee 'aplay', una herramienta de reproducción de audio usada como fallback por 'pyttsx3'.
 RUN apt-get update && apt-get install -y \
     python3-tk \
     libportaudio2 \
@@ -33,6 +35,9 @@ RUN apt-get update && apt-get install -y \
     libgirepository1.0-dev \
     xauth \
     gir1.2-gtk-3.0 \
+    gstreamer1.0-plugins-good \
+    gir1.2-gstreamer-1.0 \
+    alsa-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar Ollama

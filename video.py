@@ -3,8 +3,30 @@ import sounddevice as sd
 import numpy as np
 import queue
 
+def find_audio_monitor_device():
+    """
+    Busca un dispositivo de entrada que sea un "monitor" de una salida de audio.
+    Esto permite capturar el audio que se está reproduciendo en el sistema (loopback),
+    esencial para visualizar la salida del TTS en lugar del micrófono.
+    """
+    try:
+        devices = sd.query_devices()
+        print("--- Dispositivos de audio disponibles ---")
+        for i, device in enumerate(devices):
+            print(f"  {i}: {device['name']} (Entradas: {device['max_input_channels']}, Salidas: {device['max_output_channels']})")
+        
+        for i, device in enumerate(devices):
+            if 'monitor' in device['name'].lower() and device['max_input_channels'] > 0:
+                print(f"\n✅ Monitor de audio encontrado: '{device['name']}'. Se usará para la visualización.")
+                return i
+    except Exception as e:
+        print(f"Advertencia: No se pudieron consultar los dispositivos de audio: {e}")
+    
+    print("\n⚠️  Advertencia: No se encontró un monitor de audio. La visualización podría usar el micrófono por defecto.")
+    return None
+
 # --- Configuración ---
-DEVICE = None             # Dispositivo de audio (None para el predeterminado)
+DEVICE = find_audio_monitor_device() # Intenta encontrar un monitor de audio, si no, usa el predeterminado.
 CHUNK_SIZE = 1024         # Número de muestras a leer a la vez
 # Intentar obtener la frecuencia de muestreo por defecto del dispositivo para evitar errores
 try:
