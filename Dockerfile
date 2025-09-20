@@ -1,5 +1,5 @@
-# Usar una imagen base de Python. La versión slim es más ligera.
-FROM python:3.9-slim
+# Usar una imagen base de Python sobre Debian 12 (Bookworm). La versión slim es más ligera.
+FROM python:3.9-slim-bookworm
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -14,7 +14,7 @@ WORKDIR /app
 # - build-essential, pkg-config, libcairo2-dev: para compilar 'pycairo', una dependencia de 'playsound'.
 # - libgirepository1.0-dev: para compilar 'pygobject', otra dependencia de 'playsound'.
 # - portaudio19-dev: para compilar 'pyaudio', una dependencia de 'speechrecognition'.
-# - gir1.2-gtk-3.0: Datos de introspección para PyGObject, usado por playsound.
+# - gir1.2-gtk-3.0: Datos de introspección para PyGObject, usado por playsound en algunos sistemas.
 RUN apt-get update && apt-get install -y \
     python3-tk \
     libportaudio2 \
@@ -40,9 +40,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Crear directorio para los modelos de voz de Piper y descargarlos
-RUN mkdir -p /app/tts_models
-RUN curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx" -o /app/tts_models/es_ES-sharvard-medium.onnx
-RUN curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json" -o /app/tts_models/es_ES-sharvard-medium.onnx.json
+RUN mkdir -p /app/tts_models && \
+    curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx" -o /app/tts_models/es_ES-sharvard-medium.onnx && \
+    curl -L "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json" -o /app/tts_models/es_ES-sharvard-medium.onnx.json
 
 # Copiar todos los scripts de la aplicación al contenedor
 COPY *.py ./
