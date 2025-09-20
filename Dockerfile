@@ -15,6 +15,7 @@ WORKDIR /app
 # - libgirepository1.0-dev: para compilar 'pygobject', otra dependencia de 'playsound'.
 # - portaudio19-dev: para compilar 'pyaudio', una dependencia de 'speechrecognition'.
 # - gir1.2-gtk-3.0: Datos de introspección para PyGObject, usado por playsound en algunos sistemas.
+# - python3-gi, python3-gi-cairo: Paquetes de sistema para PyGObject, para evitar errores de compilación con pip.
 RUN apt-get update && apt-get install -y \
     python3-tk \
     libportaudio2 \
@@ -23,6 +24,8 @@ RUN apt-get update && apt-get install -y \
     libpulse0 \
     git \
     curl \
+    python3-gi \
+    python3-gi-cairo \
     build-essential \
     pkg-config \
     libcairo2-dev \
