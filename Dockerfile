@@ -69,5 +69,8 @@ COPY *.sh ./
 # Dar permisos de ejecución al script de inicio
 RUN chmod +x /app/start.sh
 
+# Añadir el usuario root al grupo de audio para mejorar la compatibilidad con PulseAudio
+RUN usermod -a -G audio root
+
 # Comando que se ejecutará cuando el contenedor se inicie
 CMD ["/app/start.sh"]
