@@ -15,6 +15,7 @@ WORKDIR /app
 # - libgirepository1.0-dev: para compilar 'pygobject', otra dependencia de 'playsound'.
 # - portaudio19-dev: para compilar 'pyaudio', una dependencia de 'speechrecognition'.
 # - gir1.2-gtk-3.0: Datos de introspección para PyGObject, usado por playsound en algunos sistemas.
+# - xauth: para ayudar con la autorización de X11 para la interfaz gráfica.
 # - python3-gi, python3-gi-cairo: Paquetes de sistema para PyGObject, para evitar errores de compilación con pip.
 RUN apt-get update && apt-get install -y \
     python3-tk \
@@ -30,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libcairo2-dev \
     libgirepository1.0-dev \
+    xauth \
     gir1.2-gtk-3.0 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -38,6 +40,9 @@ RUN curl -fsSL https://ollama.com/install.sh | sh
 
 # Copiar el archivo de requisitos primero para aprovechar el cache de Docker
 COPY requirements.txt .
+
+#Actualizar pip a la ultima version 
+RUN pip install --upgrade pip
 
 # Instalar las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
