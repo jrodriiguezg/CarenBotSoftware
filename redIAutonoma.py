@@ -18,15 +18,15 @@ from PIL import Image
 
 class AIModelManager:
     """
-    Clase para recolectar datos, entrenar y usar la red neuronal de Caren.
+    Clase para recolectar datos, entrenar y usar la red neuronal de Tuppi.
     """
     def __init__(self, base_path="."):
         # --- Configuración de Rutas ---
         self.data_path = os.path.join(base_path, "data")
         self.images_path = os.path.join(self.data_path, "imagenes")
         self.models_path = os.path.join(base_path, "models")
-        self.dataset_path = os.path.join(self.data_path, "caren_dataset.csv")
-        self.model_path = os.path.join(self.models_path, "caren_model.h5")
+        self.dataset_path = os.path.join(self.data_path, "CarenNano_dataset.csv")
+        self.model_path = os.path.join(self.models_path, "carenNano_model.h5")
 
         # --- Configuración del Modelo ---
         self.image_dims = (64, 64, 3)  # Dimensiones de la imagen (alto, ancho, canales)
@@ -51,14 +51,14 @@ class AIModelManager:
         """Convierte el estado anidado en una lista plana para el CSV."""
         
         # Extraer solo las distancias del Lidar
-        lidar_distances = [dist for angulo, dist in estado['datos_lidar']]
+        #lidar_distances = [dist for angulo, dist in estado['datos_lidar']]
         
         fila = [
             ruta_imagen,
             estado['posicion_visual']['x'],
             estado['posicion_visual']['y'],
             estado['posicion_visual']['orientacion'],
-            *lidar_distances,
+            #*lidar_distances,
             estado['distancias_ultra']['frontal'],
             estado['distancias_ultra']['derecho'],
             estado['distancias_ultra']['izquierdo'],
