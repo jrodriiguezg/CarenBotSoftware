@@ -5,7 +5,7 @@ import serial
 
 class RobotController:
     """
-    Clase que encapsula toda la lógica de movilidad del proyecto Caren.
+    Clase que encapsula toda la lógica de movilidad del proyecto Lena.
     """
     def __init__(self):
         # --- Constantes y Configuración ---
@@ -214,7 +214,7 @@ class RobotController:
         """
         Ejecuta las comprobaciones iniciales y lanza el modo de operación apropiado.
         """
-        print("Iniciando sistema de movilidad de Caren...")
+        print("Iniciando sistema de movilidad de Lena...")
         
         self.entrenamiento_activado = self.comprobar_script_entrenamiento()
 
@@ -232,10 +232,10 @@ class RobotController:
 
 if __name__ == "__main__":
     try:
-        caren_robot = RobotController()
-        caren_robot.run()
+        lena_robot = RobotController()
+        lena_robot.run()
     except KeyboardInterrupt:
         print("\nApagando sistema de movilidad.")
-        if caren_robot.ser and caren_robot.ser.is_open:
-            caren_robot.ser.close()
-        caren_robot.ejecutar_movimiento("DETENIDO")
+        if lena_robot.ser and lena_robot.ser.is_open:
+            lena_robot.ser.close()
+        lena_robot.ejecutar_movimiento("DETENIDO")
